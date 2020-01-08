@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView groceryList = (ListView) findViewById(R.id.listView);
+        //ListView groceryList = (ListView) findViewById(R.id.listView);
 
         itemList = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        groceryList.setAdapter(itemList);
+        //groceryList.setAdapter(itemList);
     }
 
     /** Called when the user taps the Send button */
