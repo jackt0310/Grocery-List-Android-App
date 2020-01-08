@@ -37,6 +37,7 @@
         app:layout_constraintStart_toEndOf="@+id/editText" />
 
     <ListView
+        android:id="@+id/listArea"
         android:layout_width="379dp"
         android:layout_height="636dp"
         android:layout_marginStart="16dp"
