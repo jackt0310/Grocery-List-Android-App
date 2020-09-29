@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -29,6 +30,18 @@ public class MainActivity extends AppCompatActivity {
         //itemList = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         groceryList.setAdapter(itemList);
 
+        final EditText edittext = (EditText) findViewById(R.id.editText);
+        edittext.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    sendMessage(v);
+                    return true;
+                }
+                return false;
+            }
+        });
         /*
         groceryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

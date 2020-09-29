@@ -14,12 +14,12 @@ import java.util.ArrayList;
 
 public class GroceryAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<Boolean> strikes = new ArrayList<Boolean>();
     private Context context;
 
 
 
     public GroceryAdapter(Context context) {
-        this.list = new ArrayList<String>();
         this.context = context;
     }
 
@@ -42,6 +42,7 @@ public class GroceryAdapter extends BaseAdapter implements ListAdapter {
 
     public void add(int index, String element) {
         list.add(index, element);
+        strikes.add(index, false);
     }
 
     public void incrementFlags(View view) {
@@ -71,12 +72,18 @@ public class GroceryAdapter extends BaseAdapter implements ListAdapter {
         TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
         listItemText.setText(list.get(position));
 
+        if(strikes.get(position)) {
+            listItemText.setPaintFlags(listItemText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            listItemText.setPaintFlags(listItemText.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+        }
         Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
 
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 list.remove(position);
+                strikes.remove(position);
                 notifyDataSetChanged();
             }
         });
@@ -84,13 +91,11 @@ public class GroceryAdapter extends BaseAdapter implements ListAdapter {
         listItemText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                TextView listItemText = (TextView)v.findViewById(R.id.list_item_string);
-                if ((listItemText.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) > 0) {
-                    listItemText.setPaintFlags(listItemText.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                if(strikes.get(position)) {
+                    strikes.set(position, false);
                 } else {
-                    listItemText.setPaintFlags(listItemText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        strikes.set(position,true);
                 }
-
                 notifyDataSetChanged();
             }
         });
