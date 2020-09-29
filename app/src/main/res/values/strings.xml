@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Grocery List</string>
     <string name="edit_message">Add a new item</string>
     <string name="button_send">Add</string>
 </resources>
