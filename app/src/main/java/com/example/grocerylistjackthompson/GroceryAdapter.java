@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.content.Context.MODE_APPEND;
 
@@ -160,6 +161,15 @@ public class GroceryAdapter extends BaseAdapter implements ListAdapter {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void sort() {
+        Collections.sort(list);
+        for(int i = 0; i < strikes.size(); i++) {
+            strikes.set(i,false);
+        }
+        notifyDataSetChanged();
+        save();
+    }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
