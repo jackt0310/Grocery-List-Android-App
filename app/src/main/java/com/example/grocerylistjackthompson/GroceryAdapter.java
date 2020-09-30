@@ -19,8 +19,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import static android.content.Context.MODE_APPEND;
+
+class GroceryObject {
+    String item;
+    boolean strike;
+
+    public GroceryObject(String gItem, boolean gStrike) {
+        item = gItem;
+        strike = gStrike;
+    }
+
+    public int compareTo(GroceryObject o) {
+        return item.compareTo(o.item);
+    }
+
+    public static Comparator<GroceryObject> GCompare = new Comparator<GroceryObject>() {
+
+        public int compare(GroceryObject o1, GroceryObject o2) {
+            return o1.item.compareTo(o2.item);
+        }
+    };
+}
 
 public class GroceryAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<String> list = new ArrayList<String>();
@@ -163,13 +185,29 @@ public class GroceryAdapter extends BaseAdapter implements ListAdapter {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void sort() {
-        Collections.sort(list);
+        ArrayList<GroceryObject> g = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++) {
+            GroceryObject item = new GroceryObject(list.get(i), strikes.get(i));
+            g.add(item);
+        }
+
+        Collections.sort(g, GroceryObject.GCompare);
+
+        list.clear();
+        strikes.clear();
+
+        for(int i = 0; i < g.size(); i++) {
+            list.add(g.get(i).item);
+            strikes.add(g.get(i).strike);
+        }
+        /*
         for(int i = 0; i < strikes.size(); i++) {
             strikes.set(i,false);
-        }
+        }*/
         notifyDataSetChanged();
         save();
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
